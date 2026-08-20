@@ -64,7 +64,13 @@ const ecosystemGroups = [
     tone: "orange" as Tone,
     title: "Commercial Ladder",
     icon: BadgeDollarSign,
-    items: ["Free Ecosystem", "DIY — $49 Course", "Monthly Full-Service", "$999 PIF"],
+    items: ["Free Knowledge Hub", "$49.99 Book", "Full-Service — $150/mo", "Full-Service — $999 PIF", "Guided Community — $50/mo · upcoming"],
+  },
+  {
+    tone: "green" as Tone,
+    title: "GHL Communities",
+    icon: UsersRound,
+    items: ["Knowledge Hub — gated", "Client Lounge — active clients", "Guided Credit Community — upcoming"],
   },
   {
     tone: "green" as Tone,
@@ -85,7 +91,7 @@ const inboundSteps: Step[] = [
 ];
 
 const fulfilmentSteps: Step[] = [
-  { label: "Onboarding", tone: "blue" },
+  { label: "Onboarding", sub: "Client Lounge + course access at enrollment", tone: "blue" },
   { label: "Round 1", tone: "blue" },
   { label: "Round 2", tone: "blue" },
   { label: "Round 3", tone: "blue" },
@@ -100,19 +106,20 @@ const workflowGroups = [
   { title: "Appointment", tone: "green" as Tone, items: ["Confirm the Appointment", "Missed / Rescheduled Appointment"] },
   { title: "Nurture", tone: "slate" as Tone, items: ["Hail Mary — seq_hailmary", "Slow Drip — seq_slowdrip", "45-Day — seq_45day", "Reactivation — seq_reactivation", "24-Week Education — seq_24wk"] },
   { title: "Blair Control", tone: "violet" as Tone, items: ["Blair Bot Persona", "Bot Control", "Booking"] },
-  { title: "Payment & Onboarding", tone: "orange" as Tone, items: ["Process Payment — HELD", "Payment Problem — HELD", "Onboarding Problem — HELD"] },
+  { title: "Payment & Onboarding", tone: "orange" as Tone, items: ["Enrollment Consequences — HELD", "Payment / Entitlement Map — HELD", "Payment, Onboarding & Access Exceptions — HELD"] },
   { title: "Fulfilment", tone: "blue" as Tone, items: ["Run Client Through Service", "Client Questions", "24-Week Education Check-In", "Going-Quiet Check — sys_stale"] },
   { title: "Graduation", tone: "green" as Tone, items: ["Graduation Workflow", "Review Eligibility / Request", "Referral Reward Cycle"] },
   { title: "Dealership", tone: "orange" as Tone, items: ["Rapid Intake", "Same-Day Close", "Human Disposition", "Reporting"] },
   { title: "Voice AI", tone: "violet" as Tone, items: ["Inbound Voice Agent", "Post-Call Normalizer", "Transfer-Failure Handler"] },
+  { title: "Communities & Content", tone: "green" as Tone, items: ["Knowledge Hub — Gated Access", "Client Lounge — Enrollment Access", "Guided Community — Upcoming", "Course / Video Access — Enrollment"] },
 ];
 
 const commercialSteps: Step[] = [
-  { label: "Prospect Enters", sub: "ecosystem entry", tone: "blue" },
-  { label: "Free Ecosystem", sub: "community · education · retail", tone: "green" },
-  { label: "DIY $49 Course", sub: "course · book · free community", tone: "violet" },
-  { label: "Monthly Full-Service", sub: "fulfilment · community · discount", tone: "orange" },
-  { label: "$999 PIF", sub: "fulfilment · community · catalog", tone: "orange" },
+  { label: "Prospect Enters", sub: "gated-offer entry", tone: "blue" },
+  { label: "Free Knowledge Hub", sub: "gated education", tone: "green" },
+  { label: "$49.99 Book", sub: "standalone education", tone: "violet" },
+  { label: "Guided Community", sub: "$50/mo · upcoming", tone: "violet" },
+  { label: "Full-Service Choices", sub: "$150/mo OR $999 PIF", tone: "orange" },
 ];
 
 const endToEndSteps: Step[] = [
@@ -122,9 +129,9 @@ const endToEndSteps: Step[] = [
   { label: "Appointment", sub: "confirmed / exception route", tone: "green" },
   { label: "Human Consultation", sub: "disposition is human", tone: "orange" },
   { label: "Commercial Terms", sub: "approved by human", tone: "orange" },
-  { label: "Payment & Onboarding", sub: "HELD in current canvas", tone: "red" },
+  { label: "Payment & Onboarding", sub: "HELD · enrollment activates Lounge + course", tone: "red" },
   { label: "Rounds 1–6", sub: "service lifecycle", tone: "blue" },
-  { label: "Graduation", sub: "reviews · referrals", tone: "green" },
+  { label: "Graduation", sub: "review / referral decision pending", tone: "green" },
 ];
 
 function ToneDot({ tone = "blue" }: { tone?: Tone }) {
@@ -280,6 +287,7 @@ export default function Home() {
               <span>GHL Core</span><ArrowRight size={16} />
               <span>AI Stack</span><ArrowRight size={16} />
               <span>Commercial</span><ArrowRight size={16} />
+              <span>Communities</span><ArrowRight size={16} />
               <span>Integrations</span>
             </div>
             <div className="ecosystem-grid">
@@ -294,7 +302,7 @@ export default function Home() {
               })}
             </div>
           </div>
-          <MarginNote label="Current Canvas Language" tone="orange">The commercial branch retains the original <strong>$49 course / $999 PIF</strong> ladder shown in the source canvas. It is displayed for review, not recast as current approved commercial terms.</MarginNote>
+          <MarginNote label="Current Content Status" tone="orange">The offer labels reflect the confirmed <strong>Knowledge Hub, $49.99 Book, full-service, and upcoming Guided Community</strong> model. Payment and entitlement automation remains held pending approved mapping and native proof testing.</MarginNote>
         </section>
 
         <section id="pipelines" className="canvas-section" onMouseEnter={() => setActiveCanvas("pipelines")}>
@@ -338,20 +346,20 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <div className="workflow-footnote"><CircleAlert size={16} /><p><strong>Held path remains held:</strong> payment processing, payment problems, and onboarding problems are presented exactly as “HELD” in the underlying workflow canvas.</p></div>
+          <div className="workflow-footnote"><CircleAlert size={16} /><p><strong>Held path remains held:</strong> the payment, entitlement, and onboarding automation map still awaits approved product rules and native proof testing. Community and course access are shown as enrollment-time content decisions, not as a claim that automation is live.</p></div>
         </section>
 
         <section id="commercial" className="canvas-section canvas-paper commercial-section" onMouseEnter={() => setActiveCanvas("commercial")}>
-          <SectionKicker number="04" eyebrow="Canvas Four" title="Commercial Ladder" description="The commercial path shown in the existing canvas, including its entitlements, negotiated deal route, communities, courses, and Pro Shop." />
-          <div className="legacy-banner"><CircleAlert size={18} /><div><strong>Existing commercial canvas</strong><span>Terms below are shown as drawn for review. They are not treated here as a new recommendation or approved replacement model.</span></div></div>
+          <SectionKicker number="04" eyebrow="Canvas Four" title="Commercial Ladder" description="The current offer names, access decisions, and held payment / entitlement status shown in the existing commercial canvas frame." />
+          <div className="legacy-banner"><CircleAlert size={18} /><div><strong>Current commercial content · build status remains mixed</strong><span>Guided Credit Community is upcoming. Payment, entitlement, and onboarding automation remain held until approved mapping and native proof testing are complete.</span></div></div>
           <div className="commercial-route">
             <RouteBand steps={commercialSteps} />
           </div>
           <div className="commercial-detail-grid">
-            <article className="entitlement-card"><h3><BookOpen size={19} /> Free / DIY Access</h3><p><b>Free:</b> community access, education / updates, Pro Shop at full retail.</p><p><b>DIY:</b> full digital course, complimentary book, free community access, Pro Shop at full retail.</p></article>
-            <article className="entitlement-card"><h3><CreditCard size={19} /> Full-Service Access</h3><p><b>Monthly:</b> fulfilment, client fulfilment community, full course, Pro Shop member discount.</p><p><b>PIF:</b> fulfilment, client fulfilment community, full course, Pro Shop catalog complimentary.</p></article>
-            <article className="entitlement-card entitlement-human"><h3><UserRound size={19} /> Human Negotiation Path</h3><p>Real objection <ArrowRight size={13} /> Human approves terms <ArrowRight size={13} /> Down payment plus monthly remainder <ArrowRight size={13} /> Automation executes the approved deal.</p></article>
-            <article className="entitlement-card"><h3><Layers3 size={19} /> Supporting Products</h3><p><b>Communities:</b> Free / DIY, Client Fulfilment.</p><p><b>Courses:</b> Onboarding Course for new clients; HECR Credit Repair Digital Course as standalone product.</p><p><b>Pro Shop:</b> templates, letters, guides, calculators, and mini-courses.</p></article>
+            <article className="entitlement-card"><h3><BookOpen size={19} /> Knowledge & Book</h3><p><b>Knowledge Hub:</b> gated education access.</p><p><b>$49.99 Book:</b> standalone educational product. It does not by itself imply client-service, community, or course entitlement.</p></article>
+            <article className="entitlement-card"><h3><CreditCard size={19} /> Full-Service Access</h3><p><b>Monthly:</b> $150/month.</p><p><b>Pay-in-Full:</b> $999.</p><p><b>At enrollment:</b> Client Lounge and onboarding course / video access begin.</p></article>
+            <article className="entitlement-card entitlement-human"><h3><UserRound size={19} /> Human Decision Path</h3><p>Consultation <ArrowRight size={13} /> Human approves commercial terms <ArrowRight size={13} /> Native proof and entitlement automation remain held pending the approved product / payment map.</p></article>
+            <article className="entitlement-card"><h3><Layers3 size={19} /> Communities & Content</h3><p><b>Knowledge Hub:</b> gated educational space.</p><p><b>Client Lounge:</b> activates at full-service enrollment and directs onboarding with the community.</p><p><b>Guided Credit Community:</b> $50/month; upcoming, not live.</p></article>
           </div>
         </section>
 
@@ -364,14 +372,14 @@ export default function Home() {
               <article><span className="branch-icon branch-violet"><MessageSquareText size={19} /></span><div><h3>Conversation Branch</h3><p>Blair books when appropriate; judgment routes to a human sales consultation.</p></div></article>
               <article><span className="branch-icon branch-red"><CalendarDays size={19} /></span><div><h3>Appointment Exceptions</h3><p>Missed, rescheduled, and no-show appointments return to the exception path.</p></div></article>
               <article><span className="branch-icon branch-orange"><UserRound size={19} /></span><div><h3>Human Disposition</h3><p>Won, Lost, Deferred, and No-show remain human-controlled sales outcomes.</p></div></article>
-              <article><span className="branch-icon branch-green"><GraduationCap size={19} /></span><div><h3>Post-Graduation</h3><p>Graduation branches to review request and referral-pipeline entry.</p></div></article>
+              <article><span className="branch-icon branch-green"><GraduationCap size={19} /></span><div><h3>Access & Graduation</h3><p>Enrollment activates Client Lounge and onboarding content; post-graduation review / referral action remains a pending decision.</p></div></article>
             </div>
           </div>
           <div className="end-summary">
             <div><span>Inputs</span><strong>Facebook · Organic · Dealership</strong></div>
             <div><span>Decision Rule</span><strong>Humans own commercial judgment</strong></div>
-            <div><span>Current Hold</span><strong>Payment & onboarding path</strong></div>
-            <div><span>Service Finish</span><strong>Graduation · review · referral</strong></div>
+            <div><span>Current Hold</span><strong>Payment / entitlement automation</strong></div>
+            <div><span>Access & Finish</span><strong>Lounge + course at enrollment · review / referral pending</strong></div>
           </div>
         </section>
 
