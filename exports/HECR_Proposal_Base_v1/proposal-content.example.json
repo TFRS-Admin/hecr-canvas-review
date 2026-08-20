@@ -1,0 +1,25 @@
+{
+  "purpose": "Copy this file into any AI or design tool as the sole editable content source for the proposal base.",
+  "approval_status": "Draft — content must be validated against the current client scope before distribution.",
+  "safe_edit_zones": [
+    "identity",
+    "hero",
+    "confidence",
+    "overview",
+    "stages",
+    "journey",
+    "roles",
+    "proof",
+    "value",
+    "footer"
+  ],
+  "do_not_change_without_versioning": [
+    "visual color tokens",
+    "typography hierarchy",
+    "six-stage composition",
+    "journey-node structure",
+    "role-versus-proof separation",
+    "responsive and print rules"
+  ],
+  "source_of_truth_rule": "A content statement may appear in the proposal only when it has a client-scope source, decision record, or clearly marked proposal assumption."
+}
